@@ -16,7 +16,8 @@ module.exports = {
     '@typescript-eslint',
     'jest',
   ],
-  rules: {
-  },
   ignorePatterns: ['jest.config.ts'],
+  rules: {
+    'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')], // https://stackoverflow.com/q/39114446/2771889
+  }
 };
