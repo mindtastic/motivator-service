@@ -1,0 +1,42 @@
+{
+  "name": "headcoach",
+  "version": "1.0.0",
+  "description": "Motivator service for mindtastic",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "dev": "nodemon -L src/index.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mindtastic/motivator-service.git"
+  },
+  "author": "Mindtastic",
+  "license": "CC-BY-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/mindtastic/motivator-service/issues"
+  },
+  "homepage": "https://github.com/mindtastic/motivator-service#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "loglevel": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jest": "^28.1.3",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.5.3",
+    "jest": "^28.1.1",
+    "nodemon": "^2.0.18",
+    "ts-jest": "^28.0.5",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  }
+}
