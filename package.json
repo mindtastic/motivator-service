@@ -2,7 +2,6 @@
   "name": "headcoach",
   "version": "1.0.0",
   "description": "Motivator service for mindtastic",
-  "main": "index.js",
   "directories": {
     "doc": "doc"
   },
