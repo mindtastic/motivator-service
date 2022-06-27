@@ -1,12 +1,13 @@
-import express, { Express, Request, Response } from 'express';
+import express from 'express';
+import log from 'loglevel';
 
 const app = express();
 const port = process.env.PORT;
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+  res.send('Hello world');
 });
 
 app.listen(port, () => {
-    console.log(`Server is running at https://localhost:${port}`)
+  log.info(`Server is running at https://localhost:${port}`);
 });
