@@ -1,4 +1,5 @@
 # Head coach
+
 Mindtastic motivator service
 
 ## Local development
