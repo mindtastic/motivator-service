@@ -10,7 +10,7 @@ RUN npx tsc
 FROM node:18-alpine3.16
 WORKDIR /app
 COPY package*.json ./
-COPY --from=ts-builder ./app/dist .
+COPY --from=ts-builder ./app/dist ./
 RUN npm ci --production
 
 CMD [ "node" "index.js"]
