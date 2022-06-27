@@ -30,11 +30,7 @@ jobs:
     - name: Run tets
       run: npm test
     - name: Run ESLint
-      uses: ninosaurus/eslint-check@v5.3.1
-      with:
-        eslint-config-path: "./.eslintrc.js"
-        custom-directory: "./"
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      run: eslint . --ext .js,.jsx,.ts,.tsx
   build:
     runs-on: ubuntu-latest
     permissions:
