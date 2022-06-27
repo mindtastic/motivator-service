@@ -19,5 +19,5 @@ module.exports = {
   ignorePatterns: ['jest.config.ts'],
   rules: {
     'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')], // https://stackoverflow.com/q/39114446/2771889
-  }
+  },
 };
