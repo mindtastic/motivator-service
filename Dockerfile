@@ -1,7 +1,7 @@
 FROM node:18-alpine3.16 as ts-builder
 
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
 COPY tsconfig.json .
 COPY ./src ./src
 RUN npm ci
