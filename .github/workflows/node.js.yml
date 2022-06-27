@@ -27,9 +27,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm test
+    - name: Run tets
+      run: npm test
     - name: Run ESLint
       uses: ninosaurus/eslint-check@v5.3.1
+      with:
+        eslint-config-path: "./eslintrc.js"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
   build:
     runs-on: ubuntu-latest
     permissions:
