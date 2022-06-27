@@ -30,7 +30,7 @@ jobs:
     - name: Run tets
       run: npm test
     - name: Run ESLint
-      run: eslint . --ext .js,.jsx,.ts,.tsx
+      run: npx eslint . --ext .js,.ts
   build:
     runs-on: ubuntu-latest
     permissions:
