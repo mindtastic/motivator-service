@@ -1,0 +1,46 @@
+// Created using dbdiagram.io
+
+Table Motivator as M {
+  id          int [pk, increment] // auto-increment
+  name        varchar
+  headline    text
+  description text
+  
+  created_at  timestamp
+  modified_at timestamp
+  deleted_at  timestamp
+}
+
+Table MotivatorContent as MC {
+  id           int [pk, increment] // auto-increment
+  ordering     int
+  content      json
+  
+  // Motivator content 
+  motivator_id int [ref: > M.id]
+}
+
+
+Table User {
+  uid uuid [pk]
+}
+
+Table MotivatorResult {
+  id int [pk, increment]
+  status enum
+  timestamp datetime
+  feedback enum
+  
+  
+  user_id int [ref: > User.uid]
+  motivator_id int [ref: > Motivator.id]
+}
+
+table MotivatorResultInput {
+  id int [pk, increment]
+  value json
+    
+  result_id int [ref: > MotivatorResult.id]
+}
+
+
