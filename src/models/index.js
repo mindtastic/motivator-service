@@ -46,11 +46,7 @@ db.motivatorResults.belongsTo(db.users, { foreignKey: 'user_id' });
 
 // MotivatorResult 1-to-many MotivatorResultInput
 
-db.motivatorResults.hasMany(db.motivatorResultInputs, {
-  foreignKey: 'result_id',
-});
-db.motivatorResultInputs.belongsTo(db.motivatorResults, {
-  foreignKey: 'result_id',
-});
+db.motivatorResults.hasMany(db.motivatorResultInputs, { foreignKey: 'result_id' });
+db.motivatorResultInputs.belongsTo(db.motivatorResults, { foreignKey: 'result_id' });
 
 module.exports = db;
