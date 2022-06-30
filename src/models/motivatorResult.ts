@@ -1,27 +1,27 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 export default (sequelize: Sequelize) => (
-  sequelize.define('Motivator', {
+  sequelize.define('MotivatorResult', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    name: {
-      type: DataTypes.STRING,
+    status: {
+      type: DataTypes.ENUM,
       allowNull: false,
     },
-    headline: {
-      type: DataTypes.TEXT,
+    timestamp: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
+    feedback: {
+      type: DataTypes.ENUM,
     },
   }, {
     timestamps: true,
     paranoid: true,
-    tableName: 'Motivators',
+    tableName: 'MotivatorResults',
   })
 );
