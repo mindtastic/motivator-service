@@ -4,9 +4,13 @@ import log from 'loglevel';
 const app = express();
 const port = process.env.PORT;
 
+const db = require('./models');
+
 const logLevel = process.env.LOG_LEVEL as log.LogLevelDesc || 'warn';
 log.setLevel(logLevel);
 log.info('Initialized logger');
+
+db.sequelize.sync({ force: true }).then(() => log.info('Database synced'));
 
 app.get('/', (req, res) => {
   res.send('Hello world');

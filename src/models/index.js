@@ -13,11 +13,11 @@ const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   },
 });
 
-const motivators = require('./motivator.ts')(sequelize);
-const motivatorContents = require('./motivatorContent.ts')(sequelize);
-const motivatorResults = require('./motivatorResult.ts')(sequelize);
-const motivatorResultInputs = require('./motivatorResultInput.ts')(sequelize);
-const users = require('./user.ts')(sequelize);
+const motivators = require('./motivator')(sequelize, Sequelize.DataTypes);
+const motivatorContents = require('./motivatorContent')(sequelize, Sequelize.DataTypes);
+const motivatorResults = require('./motivatorResult')(sequelize, Sequelize.DataTypes);
+const motivatorResultInputs = require('./motivatorResultInput')(sequelize, Sequelize.DataTypes);
+const users = require('./user')(sequelize, Sequelize.DataTypes);
 
 const db = {
   Sequelize,
@@ -31,28 +31,24 @@ const db = {
 
 // Motivator 1-to-many Motivatorcontents
 
-db.motivators.hasMany(db.motivatorContents);
-db.motivatorContents.belongsTo(db.motivators, {
-  foreignKey: 'motivator_id',
-});
+db.motivators.hasMany(db.motivatorContents, { foreignKey: 'motivator_id' });
+db.motivatorContents.belongsTo(db.motivators, { foreignKey: 'motivator_id' });
 
 // Motivator 1-to-many MotivatorResult
 
-db.motivators.hasMany(db.motivatorResults);
-db.motivatorResults.belongsTo(db.motivators, {
-  foreignKey: 'motivator_id',
-});
+db.motivators.hasMany(db.motivatorResults, { foreignKey: 'motivator_id' });
+db.motivatorResults.belongsTo(db.motivators, { foreignKey: 'motivator_id' });
 
 // User 1-to-many MotivatorResult
 
-db.users.hasMany(db.motivatorResults);
-db.motivatorResults.belongsTo(db.users, {
-  foreignKey: 'user_id',
-});
+db.users.hasMany(db.motivatorResults, { foreignKey: 'user_id' });
+db.motivatorResults.belongsTo(db.users, { foreignKey: 'user_id' });
 
 // MotivatorResult 1-to-many MotivatorResultInput
 
-db.motivatorResults.hasMany(db.motivatorResultInputs);
+db.motivatorResults.hasMany(db.motivatorResultInputs, {
+  foreignKey: 'result_id',
+});
 db.motivatorResultInputs.belongsTo(db.motivatorResults, {
   foreignKey: 'result_id',
 });
