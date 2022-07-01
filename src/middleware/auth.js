@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import User from '../db/models/users';
 
 const authMiddleware = (req, res, next) => {
@@ -14,14 +15,14 @@ const authMiddleware = (req, res, next) => {
 
   User.findOrCreate({
     where: {
-      uid: userId
-    }
-  })
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch(next);
+      uid: userId,
+    },
+  }).then((user) => {
+    req.user = user;
+    next();
+  }).catch(next);
+
+  return null;
 };
 
 export default authMiddleware;
