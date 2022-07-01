@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
 export default (sequelize: Sequelize) => (
-  sequelize.define('motivators', {
+  sequelize.define('Motivator', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
