@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => (
-  sequelize.define('User', {
+import { DataTypes, Sequelize } from 'sequelize';
+
+export default (sequelize: Sequelize) => (
+  sequelize.define('users', {
     user_id: {
       type: DataTypes.UUID,
       primaryKey: true,

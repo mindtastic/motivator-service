@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => (
+import { DataTypes, Sequelize } from 'sequelize';
+
+export default (sequelize: Sequelize) => (
   sequelize.define('MotivatorResult', {
     id: {
       type: DataTypes.INTEGER,
@@ -7,7 +9,7 @@ module.exports = (sequelize, DataTypes) => (
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('done', 'in progress'),
+      type: DataTypes.ENUM('completed', 'running'),
       allowNull: false,
     },
     timestamp: {
@@ -15,7 +17,7 @@ module.exports = (sequelize, DataTypes) => (
       allowNull: false,
     },
     feedback: {
-      type: DataTypes.ENUM('good', 'meh', 'bad'),
+      type: DataTypes.ENUM('positive', 'neutral', 'negative'),
     },
   }, {
     timestamps: true,

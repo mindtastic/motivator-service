@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => (
-  sequelize.define('Motivator', {
+import { DataTypes, Sequelize } from 'sequelize';
+
+export default (sequelize: Sequelize) => (
+  sequelize.define('motivators', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

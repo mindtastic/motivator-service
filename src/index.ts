@@ -1,10 +1,9 @@
 import express from 'express';
 import log from 'loglevel';
+import db from './models';
 
 const app = express();
 const port = process.env.PORT;
-
-const db = require('./models');
 
 const logLevel = process.env.LOG_LEVEL as log.LogLevelDesc || 'warn';
 log.setLevel(logLevel);
