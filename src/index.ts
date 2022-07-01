@@ -1,6 +1,8 @@
 import express from 'express';
 import log from 'loglevel';
 import db from './db';
+import router from './router';
+import auth from './middleware/auth';
 
 const app = express();
 const port = process.env.PORT;
@@ -21,7 +23,12 @@ const prepareDb = connectDb
     log.trace(e);
   });
 
+//app.use(auth);
+
+app.use('/motivator', router);
+
 app.get('/', (req, res) => {
+  console.log(req);
   res.send('Hello world');
 });
 
