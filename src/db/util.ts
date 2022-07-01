@@ -10,7 +10,6 @@ export function mapObject<T extends object, U>(obj: T, mapFn: (v: ValueOf<T>) =>
   }), {} as MapTo<T, U>);
 }
 
-
 export default {
   mapObject,
 };

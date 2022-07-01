@@ -6,8 +6,5 @@ export default (sequelize: Sequelize) => (
       type: DataTypes.UUID,
       primaryKey: true,
     },
-  }, {
-    timestamps: false,
-    paranoid: false,
   })
 );

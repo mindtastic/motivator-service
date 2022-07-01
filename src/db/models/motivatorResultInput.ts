@@ -1,24 +1,16 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
 export default (sequelize: Sequelize) => (
-  sequelize.define('MotivatorContent', {
+  sequelize.define('MotivatorResultInput', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    ordering: {
-      type: DataTypes.INTEGER,
+    value: {
+      type: DataTypes.JSON,
       allowNull: false,
     },
-    content: {
-      type: DataTypes.JSON,
-    },
-  }, {
-    timestamps: false,
-    paranoid: false,
-    tableName: 'MotivatorContents',
   })
-
 );

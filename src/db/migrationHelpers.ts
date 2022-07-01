@@ -62,7 +62,7 @@ const defaultCreateTableOptions: SequelizeTableMigrationOptions = {
   paranoid: false,
 };
 
-type runnerPrams = MigrationParams<QueryInterface>;
+type RunnerParams = MigrationParams<QueryInterface>;
 
 const timestampFields: ModelAttributes = {
   createdAt: {
@@ -85,7 +85,7 @@ const deletedAtField: ModelAttributes = {
 export const createTableMigration = (
   tableName: string,
   fields: ModelAttributes,
-  options: SequelizeTableMigrationOptions,
+  options: SequelizeTableMigrationOptions = {},
 ): RunnableMigration<QueryInterface> => {
   const opts = {
     ...defaultCreateTableOptions,
@@ -94,7 +94,7 @@ export const createTableMigration = (
 
   return {
     name: opts.migrationName ?? `create_${tableName}_table`,
-    up: (opts.override && opts.up) ? opts.up : async (ctx: runnerPrams) => {
+    up: (opts.override && opts.up) ? opts.up : async (ctx: RunnerParams) => {
       const { context } = ctx;
       await context.createTable(tableName, {
         ...(opts.paranoid && deletedAtField),
@@ -104,7 +104,7 @@ export const createTableMigration = (
 
       if (opts.up) await opts.up(ctx);
     },
-    down: (opts.override && opts.down) ? opts.down : async (ctx: runnerPrams) => {
+    down: (opts.override && opts.down) ? opts.down : async (ctx: RunnerParams) => {
       const { context } = ctx;
       await context.dropTable(tableName);
 

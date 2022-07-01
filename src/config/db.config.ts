@@ -1,4 +1,4 @@
-import { Dialect } from "sequelize/types";
+import { Dialect } from 'sequelize/types';
 
 const dbConfig = {
   host: 'postgres',
