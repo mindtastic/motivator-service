@@ -1,7 +1,6 @@
 import express from 'express';
 import log from 'loglevel';
 import db from './db';
-import migrations from './db';
 
 const app = express();
 const port = process.env.PORT;
