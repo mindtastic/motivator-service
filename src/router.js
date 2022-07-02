@@ -1,6 +1,8 @@
 import express from 'express';
+import { checkSchema } from 'express-validator';
 // import db from './db';
 import db from './db';
+import postSchema from './schemas/post_motivator';
 
 const router = express.Router();
 
@@ -8,21 +10,14 @@ router.get('/', (req, res) => {
   res.send('Motivator base route');
 });
 
-router.post('/', ((req, res) => {
+router.post('/', checkSchema(postSchema), ((req, res) => {
   // console.log(req);
 
   db.models.motivator.create({
-    name: 'Test Motivator',
-    headline: 'Motivator for creating code tests',
-    description: 'Heal your mind by testing your code',
-    MotivatorContents: [{
-      ordering: 0,
-      content: JSON.stringify({ whatever: 'idc' }),
-    },
-    {
-      ordering: 1,
-      content: JSON.stringify({ whatever: 'idk' }),
-    }],
+    name: req.body.name,
+    headline: req.body.headline,
+    description: req.body.description,
+    MotivatorContents: req.body.content,
   }, {
     include: [db.models.motivatorContent],
   }).then(() => res.send('successful'));
