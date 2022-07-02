@@ -24,6 +24,7 @@ const prepareDb = connectDb
   });
 
 // app.use(auth);
+app.use(express.json());
 
 app.use('/motivator', router);
 
