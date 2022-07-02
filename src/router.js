@@ -1,6 +1,6 @@
 import express from 'express';
 // import db from './db';
-import Models from './db/models';
+import db from './db';
 
 const router = express.Router();
 
@@ -8,10 +8,10 @@ router.get('/', (req, res) => {
   res.send('Motivator base route');
 });
 
-router.post('/', (() => {
-  // console.log(req, res);
+router.post('/', ((req, res) => {
+  // console.log(req);
 
-  Models.definitions.motivator.create({
+  db.models.motivator.create({
     name: 'Test Motivator',
     headline: 'Motivator for creating code tests',
     description: 'Heal your mind by testing your code',
@@ -24,8 +24,8 @@ router.post('/', (() => {
       content: JSON.stringify({ whatever: 'idk' }),
     }],
   }, {
-    include: [Models.definitions.motivatorContent],
-  });
+    include: [db.models.motivatorContent],
+  }).then(() => res.send('successful'));
 }));
 
 export default router;
