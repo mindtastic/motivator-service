@@ -7,7 +7,51 @@ import postSchema from './schemas/post_motivator';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.send('Motivator base route');
+  db.models.motivator.findAll({
+    include: [
+      {
+        model: db.models.motivatorContent,
+      },
+    ],
+  }).then((result) => {
+    // const response = result.map((item) => ({ ...item, content: item.MotivatorContents }));
+
+    // eslint-disable-next-line max-len
+    const response = result.map((item) => item.toJSON())
+      .map((item) => {
+        const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
+        return { ...item, content };
+      })
+      .map((item) => {
+        // eslint-disable-next-line no-param-reassign
+        delete item.MotivatorContents;
+        return item;
+      });
+    // console.log(response);
+    res.send(response);
+  });
+
+  /*
+  include: [
+      {
+        model: db.models.motivatorContent,
+      },
+      {
+        model: db.models.motivatorResult,
+        include: [
+          {
+            model: db.models.motivatorResultInput,
+          },
+          {
+            model: db.models.user,
+            where: {
+              uid: req.user.uid,
+            },
+          },
+        ],
+      },
+    ],
+  */
 });
 
 router.post('/', checkSchema(postSchema), ((req, res) => {

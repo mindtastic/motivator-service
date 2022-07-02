@@ -7,7 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "nodemon --legacy-watch './**/*.ts' --legacy-watch './**/*.js' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
+    "dev": "nodemon --legacy-watch './**/*.ts' -e ts,js,json --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
     "test": "jest"
   },
   "repository": {

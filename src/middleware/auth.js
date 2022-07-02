@@ -1,5 +1,5 @@
-import uuid from 'uuid';
-import User from '../db/models/users';
+import { parse as uuidParse } from 'uuid';
+import db from '../db';
 
 const authMiddleware = (req, res, next) => {
   const userId = req.get('X-User-Id');
@@ -8,17 +8,26 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    uuid.parse(userId);
+    console.log(userId);
+    uuidParse(userId);
   } catch (e) {
+    console.log(e);
     return res.status(401).json({ error: 'Invalid userId' });
   }
 
-  User.findOrCreate({
+  db.models.user.findOrCreate({
     where: {
       uid: userId,
     },
-  }).then((user) => {
-    req.user = user;
+    defaults: {
+      uid: userId,
+    },
+  }).then(([user]) => {
+    req.user = {
+      uid: user.uid,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
     next();
   }).catch(next);
 
