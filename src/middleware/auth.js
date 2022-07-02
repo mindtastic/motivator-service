@@ -8,10 +8,8 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    console.log(userId);
     uuidParse(userId);
   } catch (e) {
-    console.log(e);
     return res.status(401).json({ error: 'Invalid userId' });
   }
 

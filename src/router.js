@@ -1,8 +1,7 @@
 import express from 'express';
 import { checkSchema } from 'express-validator';
-// import db from './db';
 import db from './db';
-import postSchema from './schemas/post_motivator';
+import postSchema from './validation/schema_postMotivator';
 
 const router = express.Router();
 
@@ -11,6 +10,17 @@ router.get('/', (req, res) => {
     include: [
       {
         model: db.models.motivatorContent,
+      },
+      {
+        model: db.models.motivatorResult,
+        where: {
+          user_id: req.user.uid,
+        },
+        include: [
+          {
+            model: db.models.motivatorResultInput,
+          },
+        ],
       },
     ],
   }).then((result) => {

@@ -3,6 +3,7 @@ import log from 'loglevel';
 import db from './db';
 import router from './router';
 import auth from './middleware/auth';
+import insertSeed from './db/seed';
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +19,7 @@ const connectDb = db.sequelize.authenticate()
 
 const prepareDb = connectDb
   .then(() => db.migrations(log).up())
+  .then(() => insertSeed())
   .catch((e) => {
     log.error(`Error running migrations: ${e}`);
     log.trace(e);
