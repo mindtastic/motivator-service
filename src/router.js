@@ -25,9 +25,6 @@ router.get('/', (req, res) => {
       },
     ],
   }).then((query) => {
-    // const response = result.map((item) => ({ ...item, content: item.MotivatorContents }));
-
-    // eslint-disable-next-line max-len
     const response = query.map((item) => item.toJSON())
       .map((item) => {
         const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
@@ -46,14 +43,11 @@ router.get('/', (req, res) => {
       .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
         ...itemWithoutContents,
       }));
-    // console.log(response);
     res.send(response);
-  });
+  }).catch((error) => res.status(500).send(error));
 });
 
 router.post('/', checkSchema(postSchema), ((req, res) => {
-  // console.log(req);
-
   db.models.motivator.create({
     name: req.body.name,
     headline: req.body.headline,
@@ -61,7 +55,8 @@ router.post('/', checkSchema(postSchema), ((req, res) => {
     MotivatorContents: req.body.content,
   }, {
     include: [db.models.motivatorContent],
-  }).then(() => res.send('successful'));
+  }).then((motivator) => res.status(200).send(motivator))
+    .catch((error) => res.status(500).send(error));
 }));
 
 export default router;
