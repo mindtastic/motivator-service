@@ -17,7 +17,7 @@ const getInputs = (resultId) => [
         },
       },
     }),
-    result_id: resultId,
+    motivator_result_id: resultId,
   },
 ];
 

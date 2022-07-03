@@ -17,22 +17,23 @@ const insertSeed = async () => {
       transaction: t,
     });
 
-    motivatorsCreated.forEach((item) => {
+    await Promise.all(motivatorsCreated.map(async (item) => {
       // eslint-disable-next-line max-len
       await db.models.motivatorContent.bulkCreate(getContents(item.id), { transaction: t });
 
       const resultsCreated = await db.models.motivatorResult.bulkCreate(
-        getResults(item.id, usersCreated[0].id),
+        getResults(usersCreated[0].uid, item.id),
         { transaction: t },
       );
 
-      resultsCreated.forEach((result) => {
+      await Promise.all(resultsCreated.map(async (result) => {
         await db.models.motivatorResultInput.bulkCreate(getInputs(result.id), { transaction: t });
-      });
-    });
+      }));
+    }));
 
     await t.commit();
   } catch (e) {
+    console.log(e);
     await t.rollback();
   }
 };
