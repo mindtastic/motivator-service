@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
         where: {
           user_id: req.user.uid,
         },
+        limit: 1,
         include: [
           {
             model: db.models.motivatorResultInput,
@@ -23,45 +24,31 @@ router.get('/', (req, res) => {
         ],
       },
     ],
-  }).then((result) => {
+  }).then((query) => {
     // const response = result.map((item) => ({ ...item, content: item.MotivatorContents }));
 
     // eslint-disable-next-line max-len
-    const response = result.map((item) => item.toJSON())
+    const response = query.map((item) => item.toJSON())
       .map((item) => {
         const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
-        return { ...item, content };
+
+        const result = item.MotivatorResults.map(({
+          motivator_id, user_id, MotivatorResultInputs, ...resultItem
+        }) => ({ ...resultItem }));
+
+        const inputs = item.MotivatorResults[0].MotivatorResultInputs
+          .map(({ value }) => ({ ...JSON.parse(value) }));
+
+        return {
+          ...item, content, result: result[0], inputs,
+        };
       })
-      .map((item) => {
-        // eslint-disable-next-line no-param-reassign
-        delete item.MotivatorContents;
-        return item;
-      });
+      .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
+        ...itemWithoutContents,
+      }));
     // console.log(response);
     res.send(response);
   });
-
-  /*
-  include: [
-      {
-        model: db.models.motivatorContent,
-      },
-      {
-        model: db.models.motivatorResult,
-        include: [
-          {
-            model: db.models.motivatorResultInput,
-          },
-          {
-            model: db.models.user,
-            where: {
-              uid: req.user.uid,
-            },
-          },
-        ],
-      },
-    ],
-  */
 });
 
 router.post('/', checkSchema(postSchema), ((req, res) => {

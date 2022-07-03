@@ -6,6 +6,14 @@ import getResults from './motivatorResultSeed';
 import getInputs from './motivatorInputSeed';
 
 const insertSeed = async () => {
+  const execute = await db.models.user.findAll({
+    where: {
+      uid: users[0].uid,
+    },
+  });
+
+  if (execute) return;
+
   const t = await db.sequelize.transaction();
 
   try {
