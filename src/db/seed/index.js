@@ -5,7 +5,7 @@ import getContents from './motivatorContentSeed';
 import getResults from './motivatorResultSeed';
 import getInputs from './motivatorInputSeed';
 
-const insertSeed = async () => {
+const insertSeed = async (logger) => {
   const execute = await db.models.user.findAll({
     where: {
       uid: users[0].uid,
@@ -41,7 +41,7 @@ const insertSeed = async () => {
 
     await t.commit();
   } catch (e) {
-    console.log(e);
+    logger.error(`Error committing DB seed: ${e}`);
     await t.rollback();
   }
 };

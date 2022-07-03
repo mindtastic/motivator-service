@@ -19,7 +19,7 @@ const connectDb = db.sequelize.authenticate()
 
 const prepareDb = connectDb
   .then(() => db.migrations(log).up())
-  .then(() => insertSeed())
+  .then(() => insertSeed(log))
   .catch((e) => {
     log.error(`Error running migrations: ${e}`);
     log.trace(e);

@@ -21,7 +21,7 @@ const create = (sequelize: Sequelize) => {
   // Motivator 1-to-many Motivatorcontents
   models.motivator.hasMany(models.motivatorContent, { foreignKey: 'motivator_id' });
   models.motivatorContent.belongsTo(models.motivator, { foreignKey: 'motivator_id' });
-  // Motivator 1-to-1 MotivatorResult
+  // Motivator 1-to-many MotivatorResult
   models.motivator.hasMany(models.motivatorResult, { foreignKey: 'motivator_id' });
   models.motivatorResult.belongsTo(models.motivator, { foreignKey: 'motivator_id' });
   // User 1-to-many MotivatorResult
