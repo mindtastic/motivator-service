@@ -61,7 +61,7 @@ app.delete('/motivator/result/:motivatorId', (req, res) => {
   db.default.models.motivatorResult.destroy({
     where: { motivator_id: req.params.motivatorId },
   }).then(() => res.status(204).send()).catch((err) => res.status(404).send(err));
-
+  
 });
 
 prepareDb.then(() => app.listen(port, () => {
