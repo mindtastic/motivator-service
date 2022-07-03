@@ -1,11 +1,8 @@
 import express from 'express';
 import log from 'loglevel';
-import db from './db';
 
+import db from './db';
 import sequelize from './db';
-import definitions from './db/models';
-import sequelizeRes from './db/models/motivatorResult';
-import sequelizeMot from './db/models/motivator';
 
 const app = express();
 app.use(express.json());
@@ -41,7 +38,7 @@ app.post('/motivator/result/:motivatorId', (req, res) => {
 
 
   if (!req.body) {
-    res.status(400).send("Request body undefined");
+    res.status(422).send("Request body undefined");
     return;
   }
 
@@ -58,7 +55,7 @@ app.post('/motivator/result/:motivatorId', (req, res) => {
       feedback: req.body.feedback,
       user_id: req.get('X-User-ID'),
       motivator_id: req.params.motivatorId
-  }).then((new_result) => res.status(201).send(new_result)).catch((err) => res.status(500).send(err))
+  }).then((new_result) => res.status(201).send(new_result)).catch((err) => res.status(404).send(err))
 
 })
 
@@ -68,7 +65,7 @@ app.delete('/motivator/result/:motivatorId', (req, res) => {
   // TODO: Auth UserID Header
   sequelize.models.motivatorResult.destroy({
     where: { motivator_id: req.params.motivatorId },
-  }).then(() => res.status(200).send({"success": true})).catch((err) => res.status(500).send(err))
+  }).then(() => res.status(204).send()).catch((err) => res.status(404).send(err))
 
 })
 
