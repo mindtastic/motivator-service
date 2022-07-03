@@ -30,12 +30,7 @@ app.get('/', (req, res) => {
 
 // add result to a specified motivator
 app.post('/motivator/result/:motivatorId', (req, res) => {
-  console.log(req);
-  console.log(req.body);
-  console.log(req.get('X-User-ID'));
-  console.log(req.params.motivatorId)
-
-
+  log.info('Adding a result to a motivator')
 
   if (!req.body) {
     res.status(422).send("Request body undefined");
@@ -61,7 +56,8 @@ app.post('/motivator/result/:motivatorId', (req, res) => {
 
 // delete result from a specified motivator
 app.delete('/motivator/result/:motivatorId', (req, res) => {
-  
+  log.info('Deleting a result from a motivator')
+
   // TODO: Auth UserID Header
   sequelize.models.motivatorResult.destroy({
     where: { motivator_id: req.params.motivatorId },
