@@ -45,7 +45,7 @@ app.post('/motivator/result/:motivatorId', (req, res) => {
   // TODO: Auth UserID Header
   db.default.models.motivatorResult.create({
     status: req.body.status,
-    timestamp: timestamp,
+    timestamp: { timestamp },
     feedback: req.body.feedback,
     user_id: req.get('X-User-ID'),
     motivator_id: req.params.motivatorId
