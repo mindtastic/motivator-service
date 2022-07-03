@@ -48,8 +48,8 @@ app.post('/motivator/result/:motivatorId', (req, res) => {
     timestamp: { timestamp },
     feedback: req.body.feedback,
     user_id: req.get('X-User-ID'),
-    motivator_id: req.params.motivatorId
-  }).then((new_result) => res.status(201).send(new_result)).catch((err) => res.status(404).send(err));
+    motivator_id: req.params.motivatorId,
+  }).then((result) => res.status(201).send(result)).catch((err) => res.status(404).send(err));
 
 });
 
