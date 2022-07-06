@@ -11,23 +11,13 @@ router.get('/', (req, res) => {
       {
         model: db.models.motivatorContent,
       },
-      {
-        model: db.models.motivatorResult,
-        where: {
-          user_id: req.user.uid,
-        },
-        limit: 1,
-        include: [
-          {
-            model: db.models.motivatorResultInput,
-          },
-        ],
-      },
     ],
   }).then((query) => {
     const response = query.map((item) => item.toJSON())
       .map((item) => {
         const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
+
+        /*
 
         const result = item.MotivatorResults.map(({
           motivator_id, user_id, MotivatorResultInputs, ...resultItem
@@ -39,12 +29,18 @@ router.get('/', (req, res) => {
         return {
           ...item, content, result: result[0], inputs,
         };
+
+        */
+        return { ...item, content };
       })
-      .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
+      .map(({ MotivatorContents, ...itemWithoutContents }) => ({
         ...itemWithoutContents,
       }));
     res.send(response);
-  }).catch((error) => res.status(500).send(error));
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send(error);
+  });
 });
 
 router.post('/', checkSchema(postSchema), ((req, res) => {
