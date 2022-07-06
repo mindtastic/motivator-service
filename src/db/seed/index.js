@@ -12,7 +12,7 @@ const insertSeed = async (logger) => {
     },
   });
 
-  if (execute) return;
+  if (!execute) return;
 
   const t = await db.sequelize.transaction();
 
