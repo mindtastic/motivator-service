@@ -21,8 +21,6 @@ const authMiddleware = (req, res, next) => {
       uid: userId,
     },
   }).then(([user]) => {
-    console.log(user);
-
     req.user = {
       uid: user.uid,
       createdAt: user.createdAt,
