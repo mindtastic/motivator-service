@@ -1,5 +1,5 @@
 import express from 'express';
-import * as log from 'loglevel';
+import log from 'loglevel';
 import db from './db';
 import router from './router';
 import auth from './middleware/auth';

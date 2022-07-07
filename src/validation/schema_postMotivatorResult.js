@@ -1,3 +1,5 @@
+const toPath = ((path) => path.split(/[^\w\d]+/).filter((s) => !!s));
+
 export default {
   timestamp: {
     exists: true,
@@ -8,8 +10,7 @@ export default {
   },
   'values.*': {
     custom: {
-      options: (input, { _, _, path }) => {
-        const toPath = ((path) => path.split(/[^\w\d]+/).filter(s => !!s));
+      options: (input, { path }) => {
         const pathList = toPath(path);
         const key = pathList.at(-1);
         if (Number.isNaN(key)) {
@@ -18,7 +19,7 @@ export default {
         if (!('entries' in input)) {
           return false;
         }
-        if (typeof input.entries !== 'JSON') {
+        if (typeof input.entries !== 'string') {
           return false;
         }
         return true;

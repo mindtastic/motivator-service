@@ -1,7 +1,6 @@
 import express from 'express';
 import { checkSchema, validationResult } from 'express-validator';
-// import log from 'loglevel';
-
+import log from 'loglevel';
 import db from './db';
 import expectedMotivatorFormat from './validation/schema_postMotivator';
 import expectedMotivatorResultFormat from './validation/schema_postMotivatorResult';
@@ -86,7 +85,7 @@ router.delete('/:motivator_id/result/', (async (req, res) => {
 
   const motivatorResults = await motivatorResultsForUser(req.params.motivator_id, req.user.uid);
   if (!motivatorResults) {
-    // log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
+    log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
     return res.status(204).end();
   }
 
