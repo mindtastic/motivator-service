@@ -1,6 +1,6 @@
 import express from 'express';
 import { checkSchema, validationResult } from 'express-validator';
-import log from 'loglevel';
+// import log from 'loglevel';
 
 import db from './db';
 import expectedMotivatorFormat from './validation/schema_postMotivator';
@@ -49,7 +49,7 @@ router.post('/', checkSchema(expectedMotivatorFormat), ((req, res) => {
   }).then((motivator) => res.status(200).send(motivator));
 }));
 
-router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), (async (req, res) => {
+router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), async (req, res) => {
   // Check validation results
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
@@ -72,7 +72,7 @@ router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat)
   });
 
   return res.status(201).send({ resultId: created.id, status: 'success' });
-}));
+});
 
 router.delete('/:motivator_id/result/', (async (req, res) => {
   // check if motivator with ID exists
@@ -86,7 +86,7 @@ router.delete('/:motivator_id/result/', (async (req, res) => {
 
   const motivatorResults = await motivatorResultsForUser(req.params.motivator_id, req.user.uid);
   if (!motivatorResults) {
-    log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
+    // log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
     return res.status(204).end();
   }
 

@@ -1,6 +1,6 @@
 import db from './db';
 
-const motivatorResultsForUser = (motivatorID: string, userID: string) => (
+const motivatorResultsForUser = (motivatorID, userID) => (
   db.models.motivatorResult.findAll({
     where: {
       motivator_id: motivatorID,
