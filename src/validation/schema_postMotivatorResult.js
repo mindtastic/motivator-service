@@ -23,7 +23,7 @@ export default {
         }
         return true;
       },
-    }
+    },
   },
   'feedback.rating': {
     notEmpty: true,
