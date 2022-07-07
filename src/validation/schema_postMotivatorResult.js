@@ -8,19 +8,20 @@ export default {
   },
   'values.*': {
     custom: {
-      options: (input, { req, location, path }) => {
-        const toPath = (path) => path.split(/[^\w\d]+/).filter(s => !!s);
-        const path = toPath(path);
-        const key = path.at(-1);
-        if (isNaN(key)) {
+      options: (input, { _, _, path }) => {
+        const toPath = ((path) => path.split(/[^\w\d]+/).filter(s => !!s));
+        const pathList = toPath(path);
+        const key = pathList.at(-1);
+        if (Number.isNaN(key)) {
           return false;
         }
         if (!('entries' in input)) {
-          return false
+          return false;
         }
-        if (typeof input.entries != JSON) {
-          return false
+        if (typeof input.entries !== 'JSON') {
+          return false;
         }
+        return true;
       },
     }
   },
