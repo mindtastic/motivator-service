@@ -4,6 +4,7 @@ import db from './db';
 import router from './router';
 import auth from './middleware/auth';
 import insertSeed from './db/seed';
+import defaultErrorHandler from './middleware/defaultErrorHandler';
 
 const app = express();
 const port = process.env.PORT;
@@ -27,6 +28,7 @@ const prepareDb = connectDb
 
 app.use(auth);
 app.use(express.json());
+app.use(defaultErrorHandler);
 
 app.use('/motivator', router);
 
