@@ -1,53 +1,41 @@
 import express from 'express';
 import { checkSchema, validationResult } from 'express-validator';
+import log from 'loglevel';
+
 import db from './db';
 import expectedMotivatorFormat from './validation/schema_postMotivator';
 import expectedMotivatorResultFormat from './validation/schema_postMotivatorResult';
-import { notFoundError, serverError } from './middleware/defaultError';
-import findMotivatorResultForUser from './dbHelper';
+import motivatorResultsForUser from './dbHelper';
+import NotFoundError from './errors/NotFoundError';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  db.models.motivator.findAll({
-    include: [
-      {
-        model: db.models.motivatorContent,
-      },
-      {
-        model: db.models.motivatorResult,
-        where: {
-          user_id: req.user.uid,
-        },
-        limit: 1,
-        include: [
-          {
-            model: db.models.motivatorResultInput,
-          },
-        ],
-      },
-    ],
-  }).then((query) => {
-    const response = query.map((item) => item.toJSON())
-      .map((item) => {
-        const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
+router.get('/', async (req, res) => {
+  const query = await db.models.motivator.findAll({
+    include: [{ model: db.models.motivatorContent }, {
+      model: db.models.motivatorResult,
+      where: { user_id: req.user.uid },
+      limit: 1,
+      include: [{ model: db.models.motivatorResultInput }],
+    }],
+  });
 
-        const result = item.MotivatorResults.map(({
-          motivator_id, user_id, MotivatorResultInputs, ...resultItem
-        }) => ({ ...resultItem }));
+  const response = query.map(((item) => item.toJSON()))
+    .map((item) => ({
+      ...item,
+      content: item.MotivatorContents.map((x) => JSON.parse(x.content)),
+      result: item.MotivatorResults.map(({
+        motivator_id, user_id, MotivatorResultInputs, ...resItem
+      }) => ({ ...resItem })).first(),
+      inputs: item.MotivatorResults[0].MotivatorResultInputs.map(({ value }) => ({
+        ...JSON.parse(value),
+      })),
+    }))
+    .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
+      ...itemWithoutContents,
+    }));
 
-        const inputs = item.MotivatorResults[0].MotivatorResultInputs
-          .map(({ value }) => ({ ...JSON.parse(value) }));
-
-        return {
-          ...item, content, result: result[0], inputs,
-        };
-      })
-      .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
-        ...itemWithoutContents,
-      }));
-    res.send(response);
-  }).catch((error) => res.status(500).send(error));
+  return res.send(response);
 });
 
 router.post('/', checkSchema(expectedMotivatorFormat), ((req, res) => {
@@ -58,19 +46,20 @@ router.post('/', checkSchema(expectedMotivatorFormat), ((req, res) => {
     MotivatorContents: req.body.content,
   }, {
     include: [db.models.motivatorContent],
-  }).then((motivator) => res.status(200).send(motivator))
-    .catch((error) => res.status(500).send(error));
+  }).then((motivator) => res.status(200).send(motivator));
 }));
 
-router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), ((req, res) => {
-  // check validation result
+router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), (async (req, res) => {
+  // Check validation results
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    return res.status(400).json({error: validationErrors.array()});
+    return res.status(400).json({
+      error: validationErrors.array().map((v) => v.msg).join('\n'),
+    });
   }
-  
+
   const newResultInput = { value: req.body.values };
-  db.models.motivatorResult.create({
+  const created = await db.models.motivatorResult.create({
     timestamp: req.body.timestamp,
     feedback: req.body.feedback.rating,
     status: 'completed',
@@ -80,49 +69,39 @@ router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat)
     MotivatorResultInputs: newResultInput,
   }, {
     include: [db.models.motivatorResultInput],
-  }).then((result) => res.status(201).send({resultId: result.id, status: 'success'}))
-    .catch((error) => serverError(res, error.message));
+  });
+
+  return res.status(201).send({ resultId: created.id, status: 'success' });
 }));
 
-router.delete('/:motivator_id/result/', ((req, res) => {
-  try {
-    // check if motivator with ID exists
-    const counted = await db.models.motivator.count({
-      where: {
-        id: req.params.motivator_id,
-      },
-    });
+router.delete('/:motivator_id/result/', (async (req, res) => {
+  // check if motivator with ID exists
+  const motivatorExists = await db.models.motivator.count({
+    where: { id: req.params.motivator_id },
+  });
 
-    if (counted === 0) {
-      return notFoundError(res, 'motivator');
-    }
-
-    // search for motivator result to get it's ID
-    const motivatorResult = await findMotivatorResultForUser(req.params.motivator_id, req.user.uid);
-
-    if (motivatorResult === null) {
-      return notFoundError(res, 'motivator result');
-    }
-    
-    // 1. delete motivator result input
-    const numOfDestroyedRows = await db.models.motivatorResultInput.destroy({
-      where: {
-        motivator_result_id: motivatorResult.id,
-      },
-    });
-
-    if (numOfDestroyedRows === 0) {
-      return serverError(res, 'Could not delete motivator result inputs');
-    }
-
-    // 2. delete motivator result
-    await motivatorResult.destroy();
-
-    return res.status(204).end();
-
-  } catch (err) {
-    serverError(res, err.message);
+  if (!motivatorExists) {
+    throw new NotFoundError(`Motivator with ${req.params.motivator_id} does not exist`);
   }
+
+  const motivatorResults = await motivatorResultsForUser(req.params.motivator_id, req.user.uid);
+  if (!motivatorResults) {
+    log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
+    return res.status(204).end();
+  }
+
+  // Perform deletion in a transaction
+  await db.sequelize.transaction(async (t) => {
+    await db.models.motivatorResultInput.destroy({
+      where: { motivator_result_id: motivatorResults.map((m) => m.id) },
+      transaction: t,
+    });
+
+    // Delete motivator results
+    await Promise.all(motivatorResults.map(async (r) => r.destroy()));
+  });
+
+  return res.status(204).end();
 }));
 
 export default router;
