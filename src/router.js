@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
     const response = query.map((item) => item.toJSON())
       .map((item) => {
         const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
+        const inputs = item.MotivatorContents.map((x) => JSON.parse(x.inputs));
 
         /*
 
@@ -31,7 +32,7 @@ router.get('/', (req, res) => {
         };
 
         */
-        return { ...item, content };
+        return { ...item, content, inputs };
       })
       .map(({ MotivatorContents, ...itemWithoutContents }) => ({
         ...itemWithoutContents,

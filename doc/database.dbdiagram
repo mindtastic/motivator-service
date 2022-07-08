@@ -20,6 +20,13 @@ Table MotivatorContent as MC {
   motivator_id int [ref: > M.id]
 }
 
+Table MotivatorInput {
+  id int [pk, increment]
+  value json
+  
+  motivator_id int [ref: > Motivator.id]
+}
+
 
 Table User {
   uid uuid [pk]
@@ -40,7 +47,5 @@ table MotivatorResultInput {
   id int [pk, increment]
   value json
     
-  result_id int [ref: > MotivatorResult.id]
+  motivator_result_id int [ref: > MotivatorResult.id]
 }
-
-
