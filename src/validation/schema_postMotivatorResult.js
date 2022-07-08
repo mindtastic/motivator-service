@@ -19,7 +19,7 @@ export default {
         if (!('entries' in input)) {
           return false;
         }
-        if (typeof input.entries !== 'string') {
+        if (typeof input.entries !== 'object') {
           return false;
         }
         return true;

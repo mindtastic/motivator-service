@@ -11,26 +11,27 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   const query = await db.models.motivator.findAll({
-    include: [{ model: db.models.motivatorContent }, {
-      model: db.models.motivatorResult,
-      where: { user_id: req.user.uid },
-      limit: 1,
-      include: [{ model: db.models.motivatorResultInput }],
-    }],
+    include: [{ model: db.models.motivatorContent }],
   });
 
   const response = query.map(((item) => item.toJSON()))
     .map((item) => ({
       ...item,
       content: item.MotivatorContents.map((x) => JSON.parse(x.content)),
+
+      /*
+
       result: item.MotivatorResults.map(({
         motivator_id, user_id, MotivatorResultInputs, ...resItem
       }) => ({ ...resItem })).first(),
       inputs: item.MotivatorResults[0].MotivatorResultInputs.map(({ value }) => ({
         ...JSON.parse(value),
       })),
+
+      */
+      
     }))
-    .map(({ MotivatorContents, MotivatorResults, ...itemWithoutContents }) => ({
+    .map(({ MotivatorContents, ...itemWithoutContents }) => ({
       ...itemWithoutContents,
     }));
 
@@ -84,8 +85,8 @@ router.delete('/:motivator_id/result/', (async (req, res) => {
   }
 
   const motivatorResults = await motivatorResultsForUser(req.params.motivator_id, req.user.uid);
-  if (!motivatorResults) {
-    log.warn(`User ${req.user.uid} got motivator results but no coressponding inputs stored`);
+  if (!motivatorResults.length) {
+    log.warn(`User ${req.user.uid} got no results for motivator ${req.params.motivator_id} stored`);
     return res.status(204).end();
   }
 
@@ -97,7 +98,10 @@ router.delete('/:motivator_id/result/', (async (req, res) => {
     });
 
     // Delete motivator results
-    await Promise.all(motivatorResults.map(async (r) => r.destroy()));
+    await db.models.motivatorResult.destroy({
+      where: { id: motivatorResults.map((m) => m.id) },
+      transaction: t,
+    });
   });
 
   return res.status(204).end();
