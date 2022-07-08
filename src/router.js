@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
       })),
 
       */
-      
+
     }))
     .map(({ MotivatorContents, ...itemWithoutContents }) => ({
       ...itemWithoutContents,
