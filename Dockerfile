@@ -13,4 +13,4 @@ COPY package*.json ./
 COPY --from=ts-builder ./app/dist ./
 RUN npm ci --production
 
-CMD [ "node", "index.js"]
+CMD [ "node", "--experimental-specifier-resolution=node", "index.js"]

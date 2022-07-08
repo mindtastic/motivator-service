@@ -1,5 +1,9 @@
 {
     "files.eol": "\n",
     "editor.tabSize": 2,
-    "typescript.preferences.quoteStyle": "single"
+    
+    "typescript.preferences.quoteStyle": "single",
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.format.semicolons": "insert",
+    "javascript.format.semicolons": "insert"
 }
