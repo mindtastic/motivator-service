@@ -47,12 +47,16 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', checkSchema(postSchema), ((req, res) => {
+  let inputs = [];
+
+  if (req.body.inputs) inputs = req.body.inputs;
+
   db.models.motivator.create({
     name: req.body.name,
     headline: req.body.headline,
     description: req.body.description,
     MotivatorContents: req.body.content,
-    MotivatorInputs: req.body.inputs,
+    MotivatorInputs: inputs,
   }, {
     include: [db.models.motivatorContent, db.models.motivatorInput],
   }).then((motivator) => res.status(200).send(motivator))
