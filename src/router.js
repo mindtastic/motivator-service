@@ -2,6 +2,7 @@ import express from 'express';
 import { checkSchema } from 'express-validator';
 import db from './db';
 import postSchema from './validation/schema_postMotivator';
+import { formatMotivator } from './db/util';
 
 const router = express.Router();
 
@@ -17,29 +18,7 @@ router.get('/', (req, res) => {
     ],
   }).then((query) => {
     const response = query.map((item) => item.toJSON())
-      .map((item) => {
-        const content = item.MotivatorContents.map((x) => JSON.parse(x.content));
-        const inputs = item.MotivatorInputs.map((x) => JSON.parse(x.value));
-
-        /*
-
-        const result = item.MotivatorResults.map(({
-          motivator_id, user_id, MotivatorResultInputs, ...resultItem
-        }) => ({ ...resultItem }));
-
-        const inputs = item.MotivatorResults[0].MotivatorResultInputs
-          .map(({ value }) => ({ ...JSON.parse(value) }));
-
-        return {
-          ...item, content, result: result[0], inputs,
-        };
-
-        */
-        return { ...item, content, inputs };
-      })
-      .map(({ MotivatorContents, MotivatorInputs, ...itemWithoutContents }) => ({
-        ...itemWithoutContents,
-      }));
+      .map((item) => formatMotivator(item));
     res.send(response);
   }).catch((error) => {
     res.status(500).send(error);
