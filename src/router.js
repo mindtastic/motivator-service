@@ -42,7 +42,7 @@ router.post('/', checkSchema(expectedMotivatorFormat), ((req, res) => {
     MotivatorInputs: inputs,
   }, {
     include: [db.models.motivatorContent, db.models.motivatorInput],
-  }).then((motivator) => res.status(200).send(motivator));
+  }).then((motivator) => res.status(200).send(formatMotivator(motivator.toJSON())));
 }));
 
 router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), async (req, res) => {
