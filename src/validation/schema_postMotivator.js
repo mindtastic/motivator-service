@@ -28,5 +28,8 @@ export default {
   },
   inputs: {
     isArray: true,
+    customSanitizer: {
+      options: (value) => (value.map((item) => ({ value: JSON.stringify(item) }))),
+    },
   },
 };
