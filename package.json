@@ -22,6 +22,7 @@
   "homepage": "https://github.com/mindtastic/motivator-service#readme",
   "dependencies": {
     "@types/loglevel": "^1.6.3",
+    "axios": "^0.27.2",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
     "loglevel": "^1.8.0",

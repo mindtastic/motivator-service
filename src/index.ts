@@ -5,6 +5,7 @@ import router from './router';
 import auth from './middleware/auth';
 import insertSeed from './db/seed';
 import defaultErrorHandler from './middleware/defaultErrorHandler';
+import moodivatorRouter from './moodivator';
 
 const app = express();
 const port = process.env.PORT;
@@ -31,6 +32,8 @@ app.use(express.json());
 app.use(defaultErrorHandler);
 
 app.use('/motivator', router);
+
+app.use('/moodivator', moodivatorRouter);
 
 app.get('/', (req, res) => {
   log.info(req);
