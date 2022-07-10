@@ -15,7 +15,7 @@ moodivatorRouter.get('/', (req, res) => {
     log.info('\x1b[32m', '[GET /moodivator]', 'Reponse Status:', resp.status, '\x1b[0m');
     res.status(200).end();
   }).catch((err) => { 
-    log.err('\x1b[32m', '[GET /moodivator]', err, '\x1b[0m');
+    log.error('\x1b[32m', '[GET /moodivator]', err, '\x1b[0m');
     res.status(500).send(err);
   });
 });
