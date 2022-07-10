@@ -10,11 +10,12 @@
             ],
             "legalBases": [
                 {
+                    "description": "General Data Protection Regulation (GDPR) Art.",
                     "reference": "GDPR-99-1-a"
                 }
             ],
             "nonDisclosure": {
-                "consequences": "If the data is not disclosed, the shipment cannot be delivered.",
+                "consequences": "If the data is not disclosed, motivator results cannot be accessed.",
                 "contractualRegulation": false,
                 "legalRequirement": false,
                 "obligationToProvide": false
