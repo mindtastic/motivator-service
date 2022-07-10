@@ -10,17 +10,27 @@
   "ignorePatterns": [
     "jest.config.ts"
   ],
-  "parser": "@typescript-eslint/parser",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "project": [
+      "./tsconfig.json"
+    ],
+    "requireConfigFile": false,
+    "babelOptions": {
+      "plugins": [
+        "@babel/plugin-syntax-import-assertions"
+      ]
+    }
   },
   "plugins": [
     "@typescript-eslint",
     "jest"
   ],
   "rules": {
-    "react/jsx-filename-extension": [0]
+    "react/jsx-filename-extension": [
+      0
+    ]
   }
 }

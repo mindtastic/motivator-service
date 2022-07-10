@@ -7,7 +7,6 @@ import expectedMotivatorResultFormat from './validation/schema_postMotivatorResu
 import motivatorResultsForUser from './dbHelper';
 import NotFoundError from './errors/NotFoundError';
 import { formatMotivator } from './db/util';
-import tilt  from './tilt/tilt_motivator.json' assert { type: 'json' };
 
 
 const router = express.Router();
@@ -105,8 +104,5 @@ router.delete('/:motivator_id/result/', (async (req, res) => {
   return res.status(204).end();
 }));
 
-router.get('/tilt/motivator', (req, res) => {
-  res.status(200).json(tilt);
-});
 
 export default router;

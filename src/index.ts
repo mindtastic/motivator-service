@@ -6,6 +6,8 @@ import auth from './middleware/auth';
 import insertSeed from './db/seed';
 import defaultErrorHandler from './middleware/defaultErrorHandler';
 import moodivatorRouter from './moodivator';
+import tilt  from './tilt/tilt_motivator.json' assert { type: 'json' };
+import { assert } from 'console';
 
 const app = express();
 const port = process.env.PORT || 80;
@@ -27,17 +29,22 @@ const prepareDb = connectDb
     log.trace(e);
   });
 
+
 app.use(auth);
 app.use(express.json());
 app.use(defaultErrorHandler);
 
+
 app.use('/motivator', router);
-app.use('/tilt/motivator', router);
 app.use('/moodivator', moodivatorRouter);
 
 app.get('/', (req, res) => {
   log.info(req);
   res.send('Hello world');
+});
+
+app.get('/tilt/motivator', (req, res) => {
+  res.status(200).json(tilt);
 });
 
 app.get('/health', (req, res) => {
