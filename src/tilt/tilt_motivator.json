@@ -1,22 +1,16 @@
 {
     "dataDisclosed": [
         {
-            "_id": "motivator-service-tilt-01",
-            "category": "Language Preference",
-            "legalBases": [
-                {
-                    "description": "General Data Protection Regulation (GDPR) Art.",
-                    "reference": "GDPR-99-1-a"
-                },
-                {
-                    "description": "BDSG-42-5 refers to the processing of personal data within..",
-                    "reference": "BDSG-42-5"
-                }
-            ],
+            "category": "Motivator result",
             "legitimateInterests": [
                 {
-                    "exists": false,
-                    "reasoning": "No legitimate interests"
+                    "exists": true,
+                    "reasoning": "Legitimate interest exists."
+                }
+            ],
+            "legalBases": [
+                {
+                    "reference": "GDPR-99-1-a"
                 }
             ],
             "nonDisclosure": {
@@ -57,7 +51,11 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "automatedDecisionMaking": {
+                "inUse": true,
+                "logicInvolved": ""
+            }
         }
     ]
 }
