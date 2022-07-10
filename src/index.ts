@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(defaultErrorHandler);
 
 app.use('/motivator', router);
-
+app.use('/tilt/motivator', router);
 app.use('/moodivator', moodivatorRouter);
 
 app.get('/', (req, res) => {
