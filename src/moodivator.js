@@ -9,13 +9,13 @@ moodivatorRouter.get('/', (req, res) => {
     url: 'http://mood-diary.mood-diary.svc.cluster.local:80/diary',
     method: 'GET',
     headers: {
-      "X-User-Id": "00000000-0000-0000-000000000000",
+      "X-User-Id": "",
     }
   }).then((resp) => {
     log.info('\x1b[32m', '[GET /moodivator]', 'Reponse Status:', resp.status, '\x1b[0m');
     res.status(200).end();
   }).catch((err) => { 
-    log.error('\x1b[32m', '[GET /moodivator]', err, '\x1b[0m');
+    log.error('\x1b[32m', '[GET /moodivator]', err.response.data, '\x1b[0m');
     res.status(500).send(err);
   });
 });
