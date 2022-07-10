@@ -9,9 +9,12 @@ moodivatorRouter.get('/', (req, res) => {
     url: 'https://mood-diary.mood-diary.svc.cluster.local:80/diary',
     method: 'GET',
     headers: {
-      "X-User-Id": ""
+      "X-User-Id": "",
     }
-  }).then((resp) => log.info(resp));
+  }).then((resp) => {
+    log.info('\x1b[32m', '[GET /moodivator]', 'Reponse Status:', resp.status, '\x1b[0m');
+    res.status(200).end();
+  });
 });
 
 export default moodivatorRouter;
