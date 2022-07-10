@@ -9,6 +9,7 @@ import NotFoundError from './errors/NotFoundError';
 import { formatMotivator } from './db/util';
 import tilt  from './tilt/tilt_motivator.json' assert { type: 'json' };
 
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
