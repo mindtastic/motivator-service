@@ -35,13 +35,13 @@ app.use('/motivator', router);
 
 app.use('/moodivator', moodivatorRouter);
 
-app.get('/health', (req, res) => {
-  res.status(200);
-});
-
 app.get('/', (req, res) => {
   log.info(req);
   res.send('Hello world');
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).end();
 });
 
 prepareDb.then(() => app.listen(port, () => {
