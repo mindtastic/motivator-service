@@ -6,47 +6,43 @@ import expectedMotivatorFormat from './validation/schema_postMotivator';
 import expectedMotivatorResultFormat from './validation/schema_postMotivatorResult';
 import motivatorResultsForUser from './dbHelper';
 import NotFoundError from './errors/NotFoundError';
+import { formatMotivator } from './db/util';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const query = await db.models.motivator.findAll({
-    include: [{ model: db.models.motivatorContent }],
+router.get('/', (req, res) => {
+  db.models.motivator.findAll({
+    include: [
+      {
+        model: db.models.motivatorContent,
+      },
+      {
+        model: db.models.motivatorInput,
+      },
+    ],
+  }).then((query) => {
+    const response = query.map((item) => item.toJSON())
+      .map((item) => formatMotivator(item));
+    res.send(response);
+  }).catch((error) => {
+    res.status(500).send(error);
   });
-
-  const response = query.map(((item) => item.toJSON()))
-    .map((item) => ({
-      ...item,
-      content: item.MotivatorContents.map((x) => JSON.parse(x.content)),
-
-      /*
-
-      result: item.MotivatorResults.map(({
-        motivator_id, user_id, MotivatorResultInputs, ...resItem
-      }) => ({ ...resItem })).first(),
-      inputs: item.MotivatorResults[0].MotivatorResultInputs.map(({ value }) => ({
-        ...JSON.parse(value),
-      })),
-
-      */
-
-    }))
-    .map(({ MotivatorContents, ...itemWithoutContents }) => ({
-      ...itemWithoutContents,
-    }));
-
-  return res.send(response);
 });
 
 router.post('/', checkSchema(expectedMotivatorFormat), ((req, res) => {
+  let inputs = [];
+
+  if (req.body.inputs) inputs = req.body.inputs;
+
   db.models.motivator.create({
     name: req.body.name,
     headline: req.body.headline,
     description: req.body.description,
     MotivatorContents: req.body.content,
+    MotivatorInputs: inputs,
   }, {
-    include: [db.models.motivatorContent],
-  }).then((motivator) => res.status(200).send(motivator));
+    include: [db.models.motivatorContent, db.models.motivatorInput],
+  }).then((motivator) => res.status(200).send(formatMotivator(motivator.toJSON())));
 }));
 
 router.post('/:motivator_id/result/', checkSchema(expectedMotivatorResultFormat), async (req, res) => {

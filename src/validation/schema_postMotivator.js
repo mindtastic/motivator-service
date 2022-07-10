@@ -26,4 +26,10 @@ export default {
       options: (value) => (value.map((item, index) => ({ content: JSON.stringify(item), ordering: index }))),
     },
   },
+  inputs: {
+    isArray: true,
+    customSanitizer: {
+      options: (value) => (value.map((item) => ({ value: JSON.stringify(item) }))),
+    },
+  },
 };
