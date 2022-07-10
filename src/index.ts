@@ -35,6 +35,10 @@ app.use('/motivator', router);
 
 app.use('/moodivator', moodivatorRouter);
 
+app.get('/health', (req, res) => {
+  res.status(200);
+});
+
 app.get('/', (req, res) => {
   log.info(req);
   res.send('Hello world');
