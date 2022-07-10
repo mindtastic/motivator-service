@@ -8,7 +8,7 @@ import defaultErrorHandler from './middleware/defaultErrorHandler';
 import moodivatorRouter from './moodivator';
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 80;
 
 const logLevel = process.env.LOG_LEVEL as log.LogLevelDesc || 'warn';
 log.setLevel(logLevel);
