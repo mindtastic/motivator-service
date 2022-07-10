@@ -7,7 +7,10 @@ const moodivatorRouter = express.Router();
 moodivatorRouter.get('/', (req, res) => {
   axios({
     url: 'https://mood-diary.mood-diary.svc.cluster.local:80',
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      "X-User-Id": ""
+    }
   }).then((resp) => log.info(resp));
 });
 
