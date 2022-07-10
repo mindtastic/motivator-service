@@ -6,7 +6,8 @@ import auth from './middleware/auth';
 import insertSeed from './db/seed';
 import defaultErrorHandler from './middleware/defaultErrorHandler';
 import moodivatorRouter from './moodivator';
-import tilt  from './tilt/tilt_motivator.json' assert { type: 'json' };
+import tilt_motivator  from './tilt/tilt_motivator.json' assert { type: 'json' };
+import tilt_moodivator  from './tilt/tilt_moodivator.json' assert { type: 'json' };
 import { assert } from 'console';
 
 const app = express();
@@ -44,7 +45,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/tilt/motivator', (req, res) => {
-  res.status(200).json(tilt);
+  res.status(200).json(tilt_motivator);
+});
+
+app.get('/tilt/moodivator', (req, res) => {
+  res.status(200).json(tilt_moodivator);
 });
 
 app.get('/health', (req, res) => {
