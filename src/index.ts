@@ -5,9 +5,10 @@ import router from './router';
 import auth from './middleware/auth';
 import insertSeed from './db/seed';
 import defaultErrorHandler from './middleware/defaultErrorHandler';
+import moodivatorRouter from './moodivator';
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 80;
 
 const logLevel = process.env.LOG_LEVEL as log.LogLevelDesc || 'warn';
 log.setLevel(logLevel);
@@ -31,10 +32,16 @@ app.use(express.json());
 app.use(defaultErrorHandler);
 
 app.use('/motivator', router);
+app.use('/tilt/motivator', router);
+app.use('/moodivator', moodivatorRouter);
 
 app.get('/', (req, res) => {
   log.info(req);
   res.send('Hello world');
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).end();
 });
 
 prepareDb.then(() => app.listen(port, () => {

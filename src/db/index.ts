@@ -8,16 +8,22 @@ import Models from './models';
 declare type LogFn = (message: Record<string, unknown>) => void;
 declare type Logger = Record<'info' | 'warn' | 'error' | 'debug', LogFn> | undefined;
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
-  host: dbConfig.host,
-  dialect: dbConfig.dialect,
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
-  },
-});
+let sequelize : Sequelize;
+
+if (process.env.MODE === 'DEV') {
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    pool: {
+      max: dbConfig.pool.max,
+      min: dbConfig.pool.min,
+      acquire: dbConfig.pool.acquire,
+      idle: dbConfig.pool.idle,
+    },
+  });
+} else {
+  sequelize = new Sequelize(process.env.CONNECTION_STRING as string);
+}
 
 const models = Models.create(sequelize);
 

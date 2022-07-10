@@ -7,4 +7,6 @@ COPY tsconfig.json ./
 
 RUN npm install
 
+ENV MODE DEV
+
 CMD ["npm", "run", "dev"]
