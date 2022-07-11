@@ -6,12 +6,24 @@
                 {
                     "exists": true,
                     "reasoning": "Legitimate interest exists."
+                },
+                {
+                    "exists": true,
+                    "reasoning": "Legitimate interest exists."
                 }
             ],
             "legalBases": [
                 {
                     "description": "General Data Protection Regulation (GDPR) Art.",
                     "reference": "GDPR-99-1-a"
+                },
+                {
+                    "description": "General Data Protection Regulation (GDPR) Art.",
+                    "reference": "GDPR-99-5-c"
+                },
+                {
+                    "description": "General Data Protection Regulation (GDPR) Art.",
+                    "reference": "GDPR-99-22-e"
                 }
             ],
             "nonDisclosure": {
@@ -23,7 +35,15 @@
             "purposes": [
                 {
                     "description": "To provide the motivator-service-tilt",
-                    "purpose": "To provide the motivator-service-tilt"
+                    "purpose": "To provide users with motivators in the service"
+                },
+                {
+                    "description": "To provide the motivator-service-tilt",
+                    "purpose": "To provide the users with statistics on their past performance using motivators"
+                },
+                {
+                    "description": "To provide the motivator-service-tilt",
+                    "purpose": "To provide users with custom generated motivators based on past mood"
                 }
             ],
             "recipients": [
@@ -47,8 +67,12 @@
                     ],
                     "temporal": [
                         {
-                            "description": "Temporal element for the motivator-service-tilt",
-                            "ttl": ""
+                            "description": "Analytics data based on motivators",
+                            "ttl": "30 days"
+                        },
+                        {
+                            "description": "Backups",
+                            "ttl": "90 days"
                         }
                     ]
                 }
