@@ -1,62 +1,78 @@
 {
-  "dataDisclosed": [
-      {
-          "category": "Moodivator",
-          "legitimateInterests": [
-              {
-                  "exists": true,
-                  "reasoning": "Legitimate interest exists."
-              }
-          ],
-          "legalBases": [
-              {
-                  "description": "General Data Protection Regulation (GDPR) Art.",
-                  "reference": "GDPR-99-1-a"
-              }
-          ],
-          "nonDisclosure": {
-              "consequences": "If the data is not disclosed, mood service cannot access data.",
-              "contractualRegulation": false,
-              "legalRequirement": false,
-              "obligationToProvide": false
-          },
-          "purposes": [
-              {
-                  "description": "To provide the mood service with data",
-                  "purpose": "To provide the mood service with data"
-              }
-          ],
-          "recipients": [
-              {
-                  "address": "",
-                  "category": "",
-                  "country": "DE",
-                  "division": "",
-                  "name": "",
-                  "representative": null
-              }
-          ],
-          "storage": [
-              {
-                  "aggregationFunction": "min",
-                  "legalBasisConditional": [
-                      "SGB-100-42"
-                  ],
-                  "purposeConditional": [
-                      "Data is always stored"
-                  ],
-                  "temporal": [
-                      {
-                          "description": "Temporal element for the motivator-service-tilt",
-                          "ttl": "2022-07-05T07:31:42P3Y6M4DT12H30M17D"
-                      }
-                  ]
-              }
-          ],
-          "automatedDecisionMaking": {
-              "inUse": false,
-              "logicInvolved": ""
-          }
-      }
-  ]
+    "dataDisclosed": [
+        {
+            "category": "Moodivator",
+            "legitimateInterests": [
+                {
+                    "exists": true,
+                    "reasoning": "Legitimate interest exists."
+                },
+                {
+                    "exists": true,
+                    "reasoning": "Legitimate interest exists."
+                }
+            ],
+            "legalBases": [
+                {
+                    "description": "General Data Protection Regulation (GDPR) Art.",
+                    "reference": "GDPR-99-1-a"
+                },
+                {
+                    "description": "General Data Protection Regulation (GDPR) Art.",
+                    "reference": "GDPR-100-1-c"
+                }
+            ],
+            "nonDisclosure": {
+                "consequences": "If the data is not disclosed, mood service cannot access data.",
+                "contractualRegulation": false,
+                "legalRequirement": false,
+                "obligationToProvide": false
+            },
+            "purposes": [
+                {
+                    "description": "To provide the mood service with data",
+                    "purpose": "To provide users with motivators based on their past mood"
+                },
+                {
+                    "description": "To provide the mood service with data",
+                    "purpose": "To provide analytics correllating past mood with motivator results"
+                }
+            ],
+            "recipients": [
+                {
+                    "address": "",
+                    "category": "",
+                    "country": "DE",
+                    "division": "",
+                    "name": "",
+                    "representative": null
+                }
+            ],
+            "storage": [
+                {
+                    "aggregationFunction": "min",
+                    "legalBasisConditional": [
+                        "SGB-100-42"
+                    ],
+                    "purposeConditional": [
+                        "Data is always stored"
+                    ],
+                    "temporal": [
+                        {
+                            "description": "Temporal element for the motivator-service-tilt",
+                            "ttl": "30 days"
+                        },
+                        {
+                            "description": "Temporal element for the motivator-service-tilt",
+                            "ttl": "30 days"
+                        }
+                    ]
+                }
+            ],
+            "automatedDecisionMaking": {
+                "inUse": true,
+                "logicInvolved": ""
+            }
+        }
+    ]
 }
